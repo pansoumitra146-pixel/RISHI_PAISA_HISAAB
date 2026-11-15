@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="RISHI_budget — a personal finance dashboard for tracking expenses, bills, budgets and savings.">
+  <title>RISHI_budget — Personal Finance</title>
+  <link rel="manifest" href="manifest.json">
+ <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#dashboard" aria-label="RISHI budget home">
+        <span class="brand-mark">R</span>
+        <span><strong>RISHI</strong><small>_budget</small></span>
+      </a>
+
+      <div class="side-label">WORKSPACE</div>
+      <nav class="nav-list" aria-label="Main navigation">
+        <button class="nav-btn active" data-view="dashboard"><span class="nav-icon">⌂</span>Dashboard</button>
+        <button class="nav-btn" data-view="daily"><span class="nav-icon">▦</span>Daily expenses</button>
+        <button class="nav-btn" data-view="flat"><span class="nav-icon">⌂</span>Flat management</button>
+        <button class="nav-btn" data-view="reports"><span class="nav-icon">▥</span>Reports</button>
+        <button class="nav-btn" data-view="history"><span class="nav-icon">◷</span>History</button>
+      </nav>
+
+      <div class="side-label tools-label">TOOLS</div>
+      <nav class="nav-list">
+        <button class="nav-btn" data-view="settings"><span class="nav-icon">⚙</span>Settings & backup</button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="mini-avatar">R</div>
+        <div><strong>My finances</strong><small>Private on this device</small></div>
+        <span class="online-dot"></span>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">PERSONAL FINANCE WORKSPACE</div>
+          <h1 id="page-title">Dashboard</h1>
+        </div>
+        <div class="top-actions">
+          <div class="date-chip" id="today-label">Today</div>
+          <button class="primary-btn" id="quick-add">＋ Add expense</button>
+        </div>
+      </header>
+
+      <section class="view active" id="view-dashboard">
+        <div class="welcome-row">
+          <div>
+            <h2>Your money, <span>under control.</span></h2>
+            <p>A clear picture of where your money goes.</p>
+          </div>
+          <div class="month-select-wrap">
+            <label for="dashboard-month">OVERVIEW MONTH</label>
+            <input type="month" id="dashboard-month">
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card dark-stat">
+            <div class="stat-top"><span>Total balance</span><span class="stat-symbol">₹</span></div>
+            <div class="stat-value" id="stat-balance">₹0</div>
+            <div class="stat-foot">Income minus expenses</div>
+            <div class="stat-glow"></div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span>Total income</span><span class="stat-symbol green">↗</span></div>
+            <div class="stat-value" id="stat-income">₹0</div>
+            <div class="stat-foot">For selected month</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span>Total expenses</span><span class="stat-symbol coral">↘</span></div>
+            <div class="stat-value" id="stat-expenses">₹0</div>
+            <div class="stat-foot">For selected month</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span>Today's spending</span><span class="stat-symbol violet">◷</span></div>
+            <div class="stat-value" id="stat-today">₹0</div>
+            <div class="stat-foot" id="today-count">0 transactions</div>
+          </article>
+        </div>
+
+        <div class="content-grid dashboard-grid">
+          <article class="panel budget-panel">
+            <div class="panel-heading">
+              <div><h3>Monthly budget</h3><p>Your spending progress</p></div>
+              <span class="pill" id="budget-status">No budget set</span>
+            </div>
+            <div class="budget-numbers">
+              <strong id="budget-spent">₹0</strong>
+              <span>of <b id="budget-limit">₹0</b></span>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="budget-progress"></div></div>
+            <div class="budget-foot">
+              <span id="budget-percent">0% used</span>
+              <span id="budget-remaining">Set a budget in Settings</span>
+            </div>
+          </article>
+
+          <article class="panel savings-panel">
+            <div class="panel-heading">
+              <div><h3>Savings snapshot</h3><p>What remains this month</p></div>
+              <span class="round-icon">✦</span>
+            </div>
+            <div class="savings-amount" id="savings-value">₹0</div>
+            <p class="muted" id="savings-note">Add income and expenses to get started.</p>
+            <div class="savings-line"><span>Income</span><b id="savings-income">₹0</b></div>
+            <div class="savings-line"><span>Expenses</span><b id="savings-expenses">₹0</b></div>
+          </article>
+        </div>
+
+        <div class="content-grid lower-grid">
+          <article class="panel">
+            <div class="panel-heading">
+              <div><h3>Spending by category</h3><p>Selected month breakdown</p></div>
+              <button class="text-btn" data-goto="reports">View reports ↗</button>
+            </div>
+            <div id="dashboard-categories" class="category-bars">
+              <div class="empty-state">No expenses for this month yet.</div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading">
+              <div><h3>Recent activity</h3><p>Your latest transactions</p></div>
+              <button class="text-btn" data-goto="history">See all ↗</button>
+            </div>
+            <div id="recent-list" class="transaction-list">
+              <div class="empty-state">No transactions yet. Add your first expense.</div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="view-daily">
+        <div class="section-intro">
+          <div><h2>Daily expenses</h2><p>Review every transaction for a particular day.</p></div>
+          <button class="primary-btn" id="daily-add">＋ Add expense</button>
+        </div>
+        <article class="panel">
+          <div class="filter-row">
+            <div><label for="daily-date">SELECT DATE</label><input type="date" id="daily-date"></div>
+            <div class="daily-total"><small>DAY TOTAL</small><strong id="daily-total">₹0</strong></div>
+          </div>
+          <div class="daily-summary" id="daily-summary">No expenses recorded for this date.</div>
+          <div id="daily-list" class="transaction-list"></div>
+        </article>
+      </section>
+
+      <section class="view" id="view-flat">
+        <div class="section-intro">
+          <div><h2>Flat management</h2><p>Keep household bills and shared living costs organised.</p></div>
+          <button class="primary-btn" id="flat-add">＋ Add flat bill</button>
+        </div>
+        <div class="flat-cards" id="flat-cards"></div>
+        <article class="panel">
+          <div class="panel-heading">
+            <div><h3>Household expense records</h3><p>Rent, utilities, groceries and maintenance</p></div>
+            <input type="month" id="flat-month" class="compact-input">
+          </div>
+          <div id="flat-list" class="transaction-list"></div>
+        </article>
+        <p class="helper-note">Flat bills are saved as normal expense transactions too, so they are included in your total spending, reports and savings calculations.</p>
+      </section>
+
+      <section class="view" id="view-reports">
+        <div class="section-intro">
+          <div><h2>Reports & insights</h2><p>Understand your spending patterns month by month.</p></div>
+          <input type="month" id="report-month" class="compact-input">
+        </div>
+        <div class="report-summary" id="report-summary"></div>
+        <div class="content-grid reports-grid">
+          <article class="panel">
+            <div class="panel-heading"><div><h3>Category breakdown</h3><p>Where your money went</p></div></div>
+            <div id="report-categories" class="category-bars"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-heading"><div><h3>Monthly comparison</h3><p>Expenses across recent months</p></div></div>
+            <div id="monthly-chart" class="month-chart"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="view-history">
+        <div class="section-intro">
+          <div><h2>Transaction history</h2><p>Search, filter, edit or remove your records.</p></div>
+          <button class="primary-btn" id="history-add">＋ Add expense</button>
+        </div>
+        <article class="panel">
+          <div class="history-filters">
+            <input type="search" id="history-search" placeholder="Search description or category…">
+            <select id="history-category"><option value="">All categories</option></select>
+            <input type="month" id="history-month" class="compact-input">
+          </div>
+          <div id="history-list" class="transaction-list"></div>
+          <div class="list-footer" id="history-count"></div>
+        </article>
+      </section>
+
+      <section class="view" id="view-settings">
+        <div class="section-intro">
+          <div><h2>Settings & backup</h2><p>Set your monthly plan and protect your records.</p></div>
+        </div>
+        <div class="content-grid settings-grid">
+          <article class="panel">
+            <div class="panel-heading"><div><h3>Monthly plan</h3><p>Income and budget for a selected month</p></div></div>
+            <form id="plan-form" class="form-stack">
+              <label>Month<input type="month" id="plan-month" required></label>
+              <label>Monthly income (₹)<input type="number" id="plan-income" min="0" step="0.01" placeholder="e.g. 12000"></label>
+              <label>Monthly expense budget (₹)<input type="number" id="plan-budget" min="0" step="0.01" placeholder="e.g. 9000"></label>
+              <button class="primary-btn" type="submit">Save monthly plan</button>
+              <p class="form-message" id="plan-message"></p>
+            </form>
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading">
+              <div><h3>Data & privacy</h3><p>Your records stay in this browser unless you export them.</p></div>
+              <span class="round-icon">⌑</span>
+            </div>
+            <div class="backup-actions">
+              <button class="secondary-btn" id="add-income">＋ Add income record</button>
+              <button class="secondary-btn" id="export-json">↓ Download full backup (JSON)</button>
+              <button class="secondary-btn" id="import-trigger">↑ Restore from backup</button>
+              <input type="file" id="import-file" accept="application/json,.json" hidden>
+              <button class="secondary-btn" id="export-csv">▤ Export expenses (CSV)</button>
+            </div>
+            <div class="warning-note">
+              <strong>Important</strong>
+              <p>Browser data can be lost if you clear site data, change browsers or use another device. Download a JSON backup regularly. GitHub Pages publishes the app files; it does not sync your private transactions.</p>
+            </div>
+            <button class="danger-btn" id="clear-data">Delete all app data</button>
+          </article>
+        </div>
+      </section>
+
+      <footer class="app-footer">
+        <span>RISHI_budget <span class="footer-dot">•</span> Personal finance, made clear.</span>
+        <span>Data stored locally on this device</span>
+      </footer>
+    </main>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <button class="active" data-view="dashboard"><span>⌂</span>Home</button>
+    <button data-view="daily"><span>▦</span>Daily</button>
+    <button data-view="flat"><span>⌂</span>Flat</button>
+    <button data-view="reports"><span>▥</span>Reports</button>
+    <button data-view="history"><span>◷</span>History</button>
+  </nav>
+
+  <dialog id="expense-dialog" class="modal">
+    <form id="expense-form" class="modal-card">
+      <div class="modal-heading">
+        <div><div class="eyebrow">NEW TRANSACTION</div><h2 id="expense-modal-title">Add expense</h2></div>
+        <button type="button" class="close-btn" data-close="expense-dialog" aria-label="Close">×</button>
+      </div>
+      <input type="hidden" id="expense-id">
+      <div class="form-grid">
+        <label class="full-field">Description<input id="expense-description" type="text" maxlength="70" placeholder="e.g. Monthly groceries" required></label>
+        <label>Amount (₹)<input id="expense-amount" type="number" min="0.01" step="0.01" placeholder="0.00" required></label>
+        <label>Category<select id="expense-category" required></select></label>
+        <label>Date<input id="expense-date" type="date" required></label>
+        <label>Payment method<select id="expense-payment"><option>UPI</option><option>Cash</option><option>Card</option><option>Bank transfer</option><option>Other</option></select></label>
+        <label class="full-field">Notes (optional)<textarea id="expense-notes" rows="2" maxlength="250" placeholder="Add a note…"></textarea></label>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="secondary-btn" data-close="expense-dialog">Cancel</button>
+        <button type="submit" class="primary-btn">Save expense</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="income-dialog" class="modal">
+    <form id="income-form" class="modal-card">
+      <div class="modal-heading">
+        <div><div class="eyebrow">MONEY IN</div><h2>Add income</h2></div>
+        <button type="button" class="close-btn" data-close="income-dialog">×</button>
+      </div>
+      <div class="form-stack">
+        <label>Income source<input id="income-source" required placeholder="e.g. Monthly allowance"></label>
+        <label>Amount (₹)<input id="income-amount" type="number" min="0.01" step="0.01" required></label>
+        <label>Date<input id="income-date" type="date" required></label>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="secondary-btn" data-close="income-dialog">Cancel</button>
+        <button type="submit" class="primary-btn">Save income</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>

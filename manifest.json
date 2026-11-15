@@ -1,0 +1,18 @@
+{
+  "name": "RISHI_budget — Personal Finance",
+  "short_name": "RISHI_budget",
+  "description": "Track daily expenses, flat bills, budgets and savings.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f6fa",
+  "theme_color": "#101827",
+ "icons": [
+  {
+    "src": "./icon.svg",
+    "sizes": "any",
+    "type": "image/svg+xml",
+    "purpose": "any"
+  }
+]
+}
